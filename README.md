@@ -27,6 +27,8 @@ Themes <!-- {$gd_css} -->
 
 <!-- {$gd_collapsible_end_appearance} -->
 
+
+
 <!-- {$gd_collapsible_perspective} -->
 
 <!-- {$gd_slider_perspective="1500px,0,2000,1,px"} -->
@@ -35,13 +37,13 @@ Themes <!-- {$gd_css} -->
 
 <!-- {$gd_slider_originY="50%,0,100,1,%"} -->
 
-<!-- {$gd_slider_rotateX="0deg,0,360,1,deg"} -->
+<!-- {$gd_slider_rotateX="0deg,0,360,0.251,deg"} -->
 
-<!-- {$gd_slider_rotateY="0deg,0,360,1,deg"} -->
+<!-- {$gd_slider_rotateY="0deg,0,360,0.25,deg"} -->
 
 <!-- {$gd_slider_scaleZ="0,1,5,0.1"} -->
 
-<!-- {$gd_slider_rotateZ="0deg,0,360,1,deg"} -->
+<!-- {$gd_slider_rotateZ="0deg,0,360,0.25,deg"} -->
 
 <!-- {$gd_slider_translateZ="0px,-500,500,1,px"} -->
 
@@ -55,7 +57,7 @@ Themes <!-- {$gd_css} -->
 
 <!-- {$gd_slider_height="400px,4,2000,1,px"} -->
 
-<!-- {$gd_slider_padding="10px,0,300,1,px"} -->
+<!-- {$gd_slider_padding="100px,0,300,1,px"} -->
 
 <!-- {$gd_slider_offsetX="0px,-4000,4000,1,px"} -->
 
