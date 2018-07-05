@@ -19,17 +19,15 @@
 
   --width: 800px;
   --height: 450px;
-  --padding: 100px;
+  --inner-space: 100px;
+  --outer-space: 100px;
   --fontsize: 140%;
 
-  --scale: 1.0;
   --perspective: 1500px;
   --rotateX: 0deg;
   --rotateY: 0deg;
   --rotateZ: 0deg;
   --translateZ: 0px;
-  --translateX: 0px;
-  --translateY: 0px;
 
   --originX: 50%;
   --originY: 50%;
@@ -42,19 +40,30 @@
     rotateX(var(--rotateX))
     rotateY(var(--rotateY))
     rotateZ(var(--rotateZ))
-    translateZ(var(--translateZ))
-    translateX(var(--translateX))
-    translateY(var(--translateY));
+    translateZ(var(--translateZ));
   transform-origin: var(--originX) var(--originY);
   transform-style: preserve-3d;
 }
 
+.scaler {
+  width: 2160px;
+  height: 3840px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
 #custom .inner {
   background: cornflowerblue;
-  position: absolute;
-  height: 3840px;
+  position: fixed;
   width: 2160px;
-  padding: 1000px;
+  height: 3840px;
+  min-width: 2160px;
+  min-height: 3840px;
   overflow: hidden;
 }
 

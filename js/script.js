@@ -15,17 +15,17 @@ let events_registered = false;
 
 function done() {
 
+    if ( $('.scaler').length < 1 ) {
+        $(eid_inner).wrap('<div class="scaler">');
+    }
+
     if ( !gd.status.has('theme-changed') ) {
         var x = $('.info .slider.offsetX input').val();
         var y = $('.info .slider.offsetY input').val();
         $(eid_inner).attr( 'data-x' , x );
         $(eid_inner).attr( 'data-y' , y );
     }
-
-    if ( gd.status.has('theme-changed') ) {
-        // first update fields based on cssvar defaults
-        gd.update_from_params();
-    }
+    center_view();
 
     if ( !events_registered ) register_events();
     center_view();
@@ -40,45 +40,46 @@ function update_slider_value( name, value ) {
 // center view by updating translatex and translatey
 function center_view() {
     const $ = document.querySelector.bind(document);
-    const inner = $('.inner');
-    const current = $('.section.current');
-    let padding = parseInt( $('.field.padding input').value );
-    console.log(padding);
-    // configure object to store properties
-    const s = {
-        x: current.offsetLeft,
-        y: current.offsetTop,
-        width: current.offsetWidth,
-        height: current.offsetHeight
-    };
-    const maxwidth = window.innerWidth;
-    const maxheight = window.innerHeight;
+    let $s = $('.section.current');
+    let $scaler = $('.scaler');
+    let $inner = $('.inner');
+    
+    // store $inner dimensions for use later, if not already set
+    if( $inner.getAttribute('data-width') === null ) {
+        $inner.setAttribute('data-width', $inner.offsetWidth);
+        $inner.setAttribute('data-height', $inner.offsetHeight);
+    }
 
-        // scale accounts for whichever is less, width or heigth
-        let scale = Math.min(
-            maxwidth / (s.width + padding),
-            maxheight / (s.height + padding)
-        );
-        // setup positions for transform
-        let x = s.x - (maxwidth - s.width) / 2;
-        let y = s.y - (maxheight - s.height) / 2;
+    let inner_space = parseInt( $('.field.inner-space input').value );
+    let outer_space = parseInt( $('.field.outer-space input').value );
 
-        x -= parseInt( $('.field.offsetX input').value );
-        y -= parseInt( $('.field.offsetY input').value );
+    const maxw = window.innerWidth;
+    const maxh = window.innerHeight;
 
-        // initiate transform
-        const transform = `
-            perspective(${$('.field.perspective input').value}px)
-            rotateX(${$('.field.rotateX input').value}deg)
-            rotateY(${$('.field.rotateY input').value}deg)
-            rotateZ(${$('.field.rotateZ input').value}deg)
-            translateX(-${x}px)
-            translateY(-${y}px)
-            translateZ(${$('.field.translateZ input').value}px)
-            scaleZ(${$('.field.scaleZ input').value})
-            scale(${scale})
-            `;
-        inner.style.transform = transform;
+    // start by setting the scale
+    let scale = Math.min(
+        maxw / ( $s.offsetWidth + inner_space ),
+        maxh / ( $s.offsetHeight + inner_space )
+    );
+
+    // setup positions for transform
+    let x = $s.offsetLeft - ( maxw - $s.offsetWidth ) / 2;
+    let y = $s.offsetTop - ( maxh - $s.offsetHeight ) / 2;
+
+    x -= parseInt( $('.field.offsetX input').value );
+    y -= parseInt( $('.field.offsetY input').value );
+
+    // initiate transform
+    const transform = `
+        translateX(${-x}px)
+        translateY(${-y}px)
+        scale(${scale})
+    `;
+    $inner.style.width = Number($inner.getAttribute('data-width')) + outer_space + 'px';
+    $inner.style.height = Number($inner.getAttribute('data-height')) + outer_space + 'px';
+    $scaler.style.width = $inner.offsetWidth + 'px';
+    $scaler.style.height = $inner.offsetHeight + 'px';
+    $scaler.style.transform = transform;
 }
 
 function register_events() {
@@ -89,7 +90,6 @@ function register_events() {
         center_view();
     });
 
-    // padding
     $('.info .collapsible.perspective .field.slider input').on('input change', function(e) {
         center_view();
     });
