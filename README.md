@@ -1,77 +1,68 @@
-# DownSlide
-Simple presentation tool built with [GitDown](https://ugotsta.github.io/gitdown/) framework, utilizing GitHub's various services and Markdown for content formatting.
+# Transform
+Base project for GitDown-based apps with centered and scaled content.
 
-## Made for Simplicity
-DownSlide is built to simplify the process of creating presentations. It attempts to automatically generate a sleek and usable presentation by parsing Markdown content into slide sections.
+# Transform `🅖-nav`
 
-## How does it work?
-For quick use, create a document at [GitHub Gist](https://gist.github.com/), get the Gist's ID and paste it in the Gist field in the Info panel. Navigate the resulting slides using Arrow keys or by clicking through the sections in the `Table of Contents`.
+`ⓘ The code below designates a list of content sources the user will be able to select from in the app.`
 
-# Examples <!-- {$gd_info} -->
-### Simple presentation engine
-<!-- {$gd_help_ribbon} -->
-
-Example Gists <!-- {$gd_gist} -->
+content `🅖-datalist`
 - [An exhibit of Markdown](https://gist.github.com/deb74713e6aff8fdfce2) - Another great showcase for Markdown rendering.
 - [Vim Cheats](https://gist.github.com/c002acb756d5cf09b1ad98494a81baa3) - Simple, intuitive cheatsheet for Vim.
 
-<!-- {$gd_collapsible_appearance} -->
+## Appearance `🅖-collapsible`
 
------
+css `🅖-datalist`
+- [Dark Glow](https://gist.github.com/c6d0a4d16b627d72563b43b60a164c31)
 
-Themes <!-- {$gd_css} -->
+`🅖-theme-variables`
 
-<!-- {$gd_slider_fontsize="110,50,300,1,%"} -->
+## Effects `🅖-collapsible`
 
-<!-- {$gd_theme_variables} -->
+vignette-blend `🅖-select`
 
-<!-- {$gd_collapsible_end_appearance} -->
+vignette `🅖-slider="0.25,0,1,0.025"`
 
+svg-filter `🅖-select`
+- *None
 
+---
 
-<!-- {$gd_collapsible_perspective} -->
+brightness `🅖-slider="1,0,3,0.05"`
+contrast `🅖-slider="100%,0,300,1,%"`
+grayscale `🅖-slider="0%,0,100,1,%"`
+hue-rotate `🅖-slider="0deg,0,360,1,deg"`
+invert `🅖-slider="0%,0,100,1,%"`
+saturate `🅖-slider="100%,0,300,1,%"`
+sepia `🅖-slider="0%,0,100,1,%"`
+blur `🅖-slider="0px,0,20,1,px"`
 
-<!-- {$gd_slider_perspective="1500px,0,2000,1,px"} -->
+## Perspective `🅖-collapsible`
 
-<!-- {$gd_slider_originX="50%,0,100,1,%"} -->
+scale `🅖-slider="0,1,5,0.1"`
+perspective `🅖-slider="1500px,0,2000,1,px"`
+originX `🅖-slider="50%,0,100,1,%"`
+originY `🅖-slider="50%,0,100,1,%"`
+rotateX `🅖-slider="0deg,0,360,1,deg"`
+rotateY `🅖-slider="0deg,0,360,1,deg"`
+scaleZ `🅖-slider="0,1,5,0.1"`
+rotateZ `🅖-slider="0deg,0,360,1,deg"`
+translateZ `🅖-slider="0px,-500,500,1,px"`
 
-<!-- {$gd_slider_originY="50%,0,100,1,%"} -->
+## Dimensions `🅖-collapsible`
 
-<!-- {$gd_slider_rotateX="0deg,0,360,0.251,deg"} -->
+width `🅖-slider="960px,4,4000,1,px"`
+height `🅖-slider="400px,4,2000,1,px"`
+padding `🅖-slider="10px,0,500,1,px"`
+inner-space `🅖-slider="100px,0,300,1,px"`
+outer-space `🅖-slider="0px,0,300,1,px"`
+offsetX `🅖-slider="0px,-4000,4000,1,px"`
+offsetY `🅖-slider="0px,-4000,4000,1,px"`
 
-<!-- {$gd_slider_rotateY="0deg,0,360,0.25,deg"} -->
+## Contents `🅖-collapsible`
 
-<!-- {$gd_slider_scaleZ="0,1,5,0.1"} -->
+`🅖-toc`
 
-<!-- {$gd_slider_rotateZ="0deg,0,360,0.25,deg"} -->
+## Help `🅖-group`
 
-<!-- {$gd_slider_translateZ="0px,-500,500,1,px"} -->
-
-<!-- {$gd_collapsible_end_perspective} -->
-
-
-
-<!-- {$gd_collapsible_dimensions} -->
-
-<!-- {$gd_slider_width="960px,4,4000,1,px"} -->
-
-<!-- {$gd_slider_height="400px,4,2000,1,px"} -->
-
-<!-- {$gd_slider_inner-space="100px,0,300,1,px"} -->
-
-<!-- {$gd_slider_outer-space="100px,0,3000,1,px"} -->
-
-<!-- {$gd_slider_offsetX="0px,-4000,4000,1,px"} -->
-
-<!-- {$gd_slider_offsetY="0px,-4000,4000,1,px"} -->
-
-<!-- {$gd_collapsible_end_dimensions} -->
-
-
-<!-- {$gd_collapsible_contents} -->
-
-<!-- {$gd_toc} -->
-
-<!-- {$gd_collapsible_end_contents} -->
-
-<!-- {$gd_hide} -->
+`🅖-help`
+`🅖-hide`

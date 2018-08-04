@@ -16,13 +16,29 @@
 
 :root {
   --bg: cornsilk;
+  /* --font: 'Baloo', sans-serif, serif, monospace; */
 
-  --width: 800px;
-  --height: 450px;
-  --inner-space: 100px;
-  --outer-space: 100px;
+  --width: 960px;
+  --height: 400px;
   --fontsize: 140%;
 
+  --padding: 10px;
+
+  --inner-space: 100px;
+  --outer-space: 0px;
+
+  --vignette-blend: normal;
+
+  --brightness: 1;
+  --contrast: 100%;
+  --grayscale: 0%;
+  --hue-rotate: 0deg;
+  --invert: 0%;
+  --saturate: 100%;
+  --sepia: 0%;
+  --blur: 0px;
+
+  --scale: 1.0;
   --perspective: 1500px;
   --rotateX: 0deg;
   --rotateY: 0deg;
@@ -35,17 +51,25 @@
 
 .inner {
   transform:
-    perspective(var(--perspective))
     scale(var(--scale))
+    perspective(var(--perspective))
     rotateX(var(--rotateX))
     rotateY(var(--rotateY))
     rotateZ(var(--rotateZ))
     translateZ(var(--translateZ));
   transform-origin: var(--originX) var(--originY);
   transform-style: preserve-3d;
+  position: fixed;
 }
 
-.scaler {
+.gd-default .inner {
+  height: 2160px;
+  width: 3840px;
+  background: cornflowerblue;
+  overflow: hidden;
+}
+
+.fx {
   width: 2160px;
   height: 3840px;
   position: fixed;
@@ -55,29 +79,27 @@
   margin: 0;
   padding: 0;
   background: transparent;
+  filter:
+    brightness(var(--brightness))
+    contrast(var(--contrast))
+    grayscale(var(--grayscale))
+    hue-rotate(var(--hue-rotate))
+    invert(var(--invert))
+    saturate(var(--saturate))
+    sepia(var(--sepia))
+    blur(var(--blur));
 }
 
-#custom .inner {
-  background: cornflowerblue;
+.vignette-layer {
+  mix-blend-mode: var(--vignette-blend);
+  pointer-events: none;
   position: fixed;
-  width: 2160px;
-  height: 3840px;
-  min-width: 2160px;
-  min-height: 3840px;
-  overflow: hidden;
-}
-
-.section {
-  background-color: #ddd;
-  position: fixed;
-  width: var(--width);
-  height: var(--height);
-  font-size: var(--fontsize);
-  margin: auto;
   top: 0;
-  right: 0;
   bottom: 0;
   left: 0;
+  right: 0;
+  z-index: 10;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%);
 }
 
 * {
@@ -87,8 +109,7 @@
   font-family: 'Baloo', cursive;
 }
 
-html, body, #wrapper {
-  background-color: #fcfcfc;
+html, body, #wrapper, .container {
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -101,11 +122,15 @@ html, body, #wrapper {
 /* Sections */
 .section {
   position: fixed;
+  width: var(--width);
+  height: var(--height);
+  padding: var(--padding);
+  font-size: var(--fontsize);
   margin: auto;
   top: 0;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
   overflow: hidden;
   background: #eee;
   border: 10px solid white;
@@ -127,6 +152,10 @@ html, body, #wrapper {
   text-decoration: none;
 }
 
+.section ul, .section ol {
+  margin: 0 1em;
+}
+
 iframe.bg-video {
   position: absolute;
   top: 0;
@@ -145,11 +174,6 @@ iframe.bg-video {
 .section a:hover {
   background: rgba(255,255,100,0.25);
   box-shadow: 0 0 6px rgba(255,255,100,0.25);
-}
-
-.section ul {
-  padding: 20px 0px;
-  list-style: none;
 }
 
 .section p {
@@ -185,47 +209,47 @@ iframe.bg-video {
 /* ANIMATIONS */
 
 /* 
-    NOTE: mix-blend-mode seems to be required in current Chrome version
+    NOTE: mix-blend-mode:normal has strange effect in current Chrome version
     when using transforms and SVG filters
 */
 
 @keyframes in {
-  0% { opacity: 0; mix-blend-mode: lighten; transform: translateX(100%) perspective(2000px) rotateY(60deg) scale(2); }
-  100% { opacity: 1; mix-blend-mode: lighten; transform: translateX(0px) perspective(2000px) rotateY(0deg) scale(1); }
+    0% { opacity: 0; mix-blend-mode: lighten; transform: translateX(100%) perspective(2000px) rotateY(60deg) scale(2); }
+    100% { opacity: 1; mix-blend-mode: lighten; transform: translateX(0px) perspective(2000px) rotateY(0deg) scale(1); }
 }
 
 @keyframes out {
-  0% { opacity: 1; mix-blend-mode: lighten; transform: translateX(0px) perspective(2000px) rotateY(0deg) scale(1); }
-  100% { opacity: 0; mix-blend-mode: lighten; transform: translateX(-100%) perspective(2000px) rotateY(120deg) scale(2); }
+    0% { opacity: 1; mix-blend-mode: lighten; transform: translateX(0px) perspective(2000px) rotateY(0deg) scale(1); }
+    100% { opacity: 0; mix-blend-mode: lighten; transform: translateX(-100%) perspective(2000px) rotateY(120deg) scale(2); }
 }
 
 @keyframes in-reverse {
-0% { opacity: 1; mix-blend-mode: lighten; transform: translateX(0px) perspective(2000px) rotateY(0deg) scale(1); }
-100% { opacity: 0; mix-blend-mode: lighten; transform: translateX(100%) perspective(2000px) rotateY(80deg) scale(2); }
+  0% { opacity: 1; mix-blend-mode: lighten; transform: translateX(0px) perspective(2000px) rotateY(0deg) scale(1); }
+  100% { opacity: 0; mix-blend-mode: lighten; transform: translateX(100%) perspective(2000px) rotateY(80deg) scale(2); }
 }
 
 @keyframes out-reverse {
-0% { opacity: 0; mix-blend-mode: lighten; transform: perspective(2000px) rotateY(60deg) scale(2); }
-100% { opacity: 1; mix-blend-mode: lighten; transform: perspective(2000px) rotateY(0deg) scale(1); }
+  0% { opacity: 0; mix-blend-mode: lighten; transform: perspective(2000px) rotateY(60deg) scale(2); }
+  100% { opacity: 1; mix-blend-mode: lighten; transform: perspective(2000px) rotateY(0deg) scale(1); }
 }
 
 /* ------------------------------------------------------------------------ */
 
 /* Info panel */
-.info a {
+.nav a {
   color: #76869C;
 }
 
-.info .toc a.current {
+.nav .toc a.current {
   color: gray;
   pointer-events: none;
 }
 
-.info .toc a.current::before {
+.nav .toc a.current::before {
   content: "> ";
 }
 
-#custom .info a:hover {
+#custom .nav a:hover {
   color: #fff;
 }
 
