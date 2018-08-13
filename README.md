@@ -40,13 +40,13 @@ blur `🅖-slider="0px,0,20,1,px"`
 
 scale `🅖-slider="0,1,5,0.1"`
 perspective `🅖-slider="1500px,0,2000,1,px"`
-originX `🅖-slider="50%,0,100,1,%"`
-originY `🅖-slider="50%,0,100,1,%"`
-rotateX `🅖-slider="0deg,0,360,1,deg"`
-rotateY `🅖-slider="0deg,0,360,1,deg"`
-scaleZ `🅖-slider="0,1,5,0.1"`
-rotateZ `🅖-slider="0deg,0,360,1,deg"`
-translateZ `🅖-slider="0px,-500,500,1,px"`
+originx `🅖-slider="50%,0,100,1,%"`
+originy `🅖-slider="50%,0,100,1,%"`
+rotatex `🅖-slider="0deg,0,360,1,deg"`
+rotatey `🅖-slider="0deg,0,360,1,deg"`
+scalez `🅖-slider="0,1,5,0.1"`
+rotatez `🅖-slider="0deg,0,360,1,deg"`
+translatez `🅖-slider="0px,-500,500,1,px"`
 
 ## Dimensions `🅖-collapsible`
 
@@ -55,8 +55,8 @@ height `🅖-slider="400px,4,2000,1,px"`
 padding `🅖-slider="10px,0,500,1,px"`
 inner-space `🅖-slider="100px,0,300,1,px"`
 outer-space `🅖-slider="0px,0,300,1,px"`
-offsetX `🅖-slider="0px,-4000,4000,1,px"`
-offsetY `🅖-slider="0px,-4000,4000,1,px"`
+offsetx `🅖-slider="0px,-4000,4000,1,px"`
+offsety `🅖-slider="0px,-4000,4000,1,px"`
 
 ## Contents `🅖-collapsible`
 

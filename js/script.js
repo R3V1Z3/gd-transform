@@ -9,11 +9,9 @@ class Transform extends GitDown {
         this.extract_svg('filters.svg');
         this.add_fx();
         this.vignette();
-
         this.center_view();
         this.register_app_events();
         this.update_slider_value( 'outer-space', this.settings.get_value('outer-space') );
-
         this.center_view();
     }
 
@@ -91,13 +89,15 @@ class Transform extends GitDown {
         bg += `rgba(0,0,0,${v/3}) 60%,`;
         bg += `rgba(0,0,0,${v}) 100%)`;
         var s = '';
+        // once Dom class is implemented:
+        // this.dom.style('.vignette-layer'. 'backgroundImage', bg);
         var vignette = this.wrapper.querySelector('.vignette-layer');
         if ( vignette !== null ) vignette.style.backgroundImage = bg;
     }
 
     update_offsets() {
-        this.inner.setAttribute( 'data-x', this.settings.get_value('offsetX') );
-        this.inner.setAttribute( 'data-y', this.settings.get_value('offsetY') );
+        this.inner.setAttribute( 'data-x', this.settings.get_value('offsetx') );
+        this.inner.setAttribute( 'data-y', this.settings.get_value('offsety') );
     }
 
     update_slider_value( name, value ) {
@@ -135,8 +135,8 @@ class Transform extends GitDown {
         let x = $s.offsetLeft - ( maxw - $s.offsetWidth ) / 2;
         let y = $s.offsetTop - ( maxh - $s.offsetHeight ) / 2;
 
-        x -= parseInt( $('.field.offsetX input').value );
-        y -= parseInt( $('.field.offsetY input').value );
+        x -= parseInt( $('.field.offsetx input').value );
+        y -= parseInt( $('.field.offsety input').value );
 
         // initiate transform
         const transform = `
@@ -158,22 +158,20 @@ class Transform extends GitDown {
         if ( this.status.has('app-events-registered') ) return;
         else this.status.add('app-events-registered');
     
-        window.addEventListener('resize', e => {
-            this.center_view();
-        });
+        window.addEventListener( 'resize', e => this.center_view() );
     
-        this.events.add('.nav .collapsible.Effects .field.slider input', 'input', this.center_view);
-        this.events.add('.nav .collapsible.Dimensions .field.slider input', 'input', this.center_view);
+        this.events.add('.nav .collapsible.perspective .field.slider input', 'input', this.center_view);
+        this.events.add('.nav .collapsible.dimensions .field.slider input', 'input', this.center_view);
         this.events.add('.nav .field.slider.fontsize input', 'input', this.center_view);
         this.events.add('.nav .field.slider.vignette input', 'input', this.vignette.bind(this));
     
         let f = document.querySelector('.nav .field.select.svg-filter select');
-        f.addEventListener( 'change', this.svg_change );
+        f.addEventListener( 'change', this.svg_change.bind(this) );
     
         // mousewheel zoom handler
         this.events.add('.inner', 'wheel', e => {
             // disallow zoom within parchment content so user can safely scroll text
-            let translatez = document.querySelector('.nav .slider.translateZ input');
+            let translatez = document.querySelector('.nav .slider.translatez input');
             if ( translatez === null ) return;
             var v = Number( translatez.value );
             if( e.deltaY < 0 ) {
@@ -183,16 +181,16 @@ class Transform extends GitDown {
                 v -= 10;
                 if ( v < -500 ) v = -500;
             }
-            this.settings.set_value('translateZ', v);
-            this.update_slider_value( 'translateZ', v );
+            this.settings.set_value('translatez', v);
+            this.update_slider_value( 'translatez', v );
         }, this );
     
         interact(this.eid_inner)
         .gesturable({
             onmove: function (event) {
-                var scale = this.settings.get_value('translateZ');
+                var scale = this.settings.get_value('translatez');
                 scale = scale * (5 + event.ds);
-                this.update_slider_value( 'translateZ', scale );
+                this.update_slider_value( 'translatez', scale );
                 this.dragMoveListener(event);
             }
         })
@@ -213,12 +211,12 @@ class Transform extends GitDown {
     
         // when middle mouse clicked and no movement, reset offset positions
         if ( event.buttons === 4 ) {
-            x = this.settings.get_default('offsetX');
-            y = this.settings.get_default('offsetY');
+            x = this.settings.get_default('offsetx');
+            y = this.settings.get_default('offsety');
         }
         
-        this.update_slider_value( 'offsetX', x );
-        this.update_slider_value( 'offsetY', y );
+        this.update_slider_value( 'offsetx', x );
+        this.update_slider_value( 'offsety', y );
         
         // update the position attributes
         target.setAttribute('data-x', x);

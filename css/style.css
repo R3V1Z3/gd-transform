@@ -40,24 +40,24 @@
 
   --scale: 1.0;
   --perspective: 1500px;
-  --rotateX: 0deg;
-  --rotateY: 0deg;
-  --rotateZ: 0deg;
-  --translateZ: 0px;
+  --rotatex: 0deg;
+  --rotatey: 0deg;
+  --rotatez: 0deg;
+  --translatez: 0px;
 
-  --originX: 50%;
-  --originY: 50%;
+  --originx: 50%;
+  --originy: 50%;
 }
 
 .inner {
   transform:
     scale(var(--scale))
     perspective(var(--perspective))
-    rotateX(var(--rotateX))
-    rotateY(var(--rotateY))
-    rotateZ(var(--rotateZ))
-    translateZ(var(--translateZ));
-  transform-origin: var(--originX) var(--originY);
+    rotateX(var(--rotatex))
+    rotateY(var(--rotatey))
+    rotateZ(var(--rotatez))
+    translateZ(var(--translatez));
+  transform-origin: var(--originx) var(--originy);
   transform-style: preserve-3d;
   position: fixed;
 }
