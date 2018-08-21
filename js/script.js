@@ -5,21 +5,21 @@ class Transform extends GitDown {
     }
 
     ready() {
-        this.update_offsets();
-        this.extract_svg('filters.svg');
-        this.add_fx();
+        this.updateOffsets();
+        this.extractSvg('filters.svg');
+        this.addFx();
         this.vignette();
-        this.center_view();
-        this.register_app_events();
-        this.update_slider_value( 'outer-space', this.settings.get_value('outer-space') );
-        this.center_view();
+        this.centerView();
+        this.registerAppEvents();
+        this.updateSliderValue( 'outer-space', this.settings.getValue('outer-space') );
+        this.centerView();
     }
 
-    extract_svg(filename) {
+    extractSvg(filename) {
         let svg = document.querySelector('#svg');
         if ( svg === undefined ) return;
-        let svg_filter = this.settings.get_param_value('svg-filter');
-        if ( svg_filter === undefined ) svg_filter = 'none';
+        let svgFilter = this.settings.getParamValue('svg-filter');
+        if ( svgFilter === undefined ) svgFilter = 'none';
         this.get(filename).then( data => {
             // add svg filters to body
             var div = document.createElement("div");
@@ -36,21 +36,21 @@ class Transform extends GitDown {
                     select.innerHTML += `<option>${name}-${id}</option>`;
                 });
             }
-            select.value = svg_filter;
-            this.update_field(select, svg_filter);
-            this.svg_change();
+            select.value = svgFilter;
+            this.updateField(select, svgFilter);
+            this.svgChange();
         }).catch(function (error) {
             console.log(error);
         });
     }
 
-    add_fx() {
+    addFx() {
         // check if fx layer already exists and return if so
         if ( this.wrapper.querySelector('.fx') === undefined ) return;
         const fx = document.createElement('div');
         fx.classList.add('fx');
         // wrap inner div with fx div
-        const inner = document.querySelector(this.eid_inner);
+        const inner = document.querySelector(this.eidInner);
         inner.parentNode.insertBefore(fx, inner);
         fx.appendChild(inner);
         // add vignette layer to wrapper
@@ -59,8 +59,8 @@ class Transform extends GitDown {
         this.wrapper.appendChild(vignette);
     }
 
-    svg_change() {
-        let svg = this.settings.get_value('svg-filter');
+    svgChange() {
+        let svg = this.settings.getValue('svg-filter');
         let fx = document.querySelector('.fx');
         if ( fx === null ) return;
     
@@ -82,7 +82,7 @@ class Transform extends GitDown {
     }
 
     vignette() {
-        const v = this.settings.get_value('vignette');
+        const v = this.settings.getValue('vignette');
         var bg = `radial-gradient(ellipse at center,`;
         bg += `rgba(0,0,0,0) 0%,`;
         bg += `rgba(0,0,0,${v/6}) 30%,`;
@@ -95,19 +95,19 @@ class Transform extends GitDown {
         if ( vignette !== null ) vignette.style.backgroundImage = bg;
     }
 
-    update_offsets() {
-        this.inner.setAttribute( 'data-x', this.settings.get_value('offsetx') );
-        this.inner.setAttribute( 'data-y', this.settings.get_value('offsety') );
+    updateOffsets() {
+        this.inner.setAttribute( 'data-x', this.settings.getValue('offsetx') );
+        this.inner.setAttribute( 'data-y', this.settings.getValue('offsety') );
     }
 
-    update_slider_value( name, value ) {
+    updateSliderValue( name, value ) {
         var slider = this.wrapper.querySelector( `.nav .slider.${name} input` );
         slider.value = value;
-        this.update_field(slider, value);
+        this.updateField(slider, value);
     }
 
     // center view by updating translatex and translatey
-    center_view() {
+    centerView() {
         const $ = document.querySelector.bind(document);
         let $s = $('.section.current');
         let $fx = $('.fx');
@@ -119,16 +119,16 @@ class Transform extends GitDown {
             $inner.setAttribute('data-height', $inner.offsetHeight);
         }
 
-        let inner_space = parseInt( $('.field.inner-space input').value );
-        let outer_space = parseInt( $('.field.outer-space input').value );
+        let innerSpace = parseInt( $('.field.inner-space input').value );
+        let outerSpace = parseInt( $('.field.outer-space input').value );
 
         const maxw = window.innerWidth;
         const maxh = window.innerHeight;
 
         // start by setting the scale
         let scale = Math.min(
-            maxw / ( $s.offsetWidth + inner_space ),
-            maxh / ( $s.offsetHeight + inner_space )
+            maxw / ( $s.offsetWidth + innerSpace ),
+            maxh / ( $s.offsetHeight + innerSpace )
         );
 
         // setup positions for transform
@@ -146,27 +146,27 @@ class Transform extends GitDown {
         `;
         let w = Number($inner.getAttribute('data-width'));
         let h = Number($inner.getAttribute('data-height'));
-        $inner.style.width = w + outer_space + 'px';
-        $inner.style.height = h + outer_space + 'px';
+        $inner.style.width = w + outerSpace + 'px';
+        $inner.style.height = h + outerSpace + 'px';
         $fx.style.width = $inner.offsetWidth + 'px';
         $fx.style.height = $inner.offsetHeight + 'px';
         $fx.style.transform = transform;
     }
 
-    register_app_events() {
+    registerAppEvents() {
 
         if ( this.status.has('app-events-registered') ) return;
         else this.status.add('app-events-registered');
     
-        window.addEventListener( 'resize', e => this.center_view() );
+        window.addEventListener( 'resize', e => this.centerView() );
     
-        this.events.add('.nav .collapsible.perspective .field.slider input', 'input', this.center_view);
-        this.events.add('.nav .collapsible.dimensions .field.slider input', 'input', this.center_view);
-        this.events.add('.nav .field.slider.fontsize input', 'input', this.center_view);
+        this.events.add('.nav .collapsible.perspective .field.slider input', 'input', this.centerView);
+        this.events.add('.nav .collapsible.dimensions .field.slider input', 'input', this.centerView);
+        this.events.add('.nav .field.slider.fontsize input', 'input', this.centerView);
         this.events.add('.nav .field.slider.vignette input', 'input', this.vignette.bind(this));
     
         let f = document.querySelector('.nav .field.select.svg-filter select');
-        f.addEventListener( 'change', this.svg_change.bind(this) );
+        f.addEventListener( 'change', this.svgChange.bind(this) );
     
         // mousewheel zoom handler
         this.events.add('.inner', 'wheel', e => {
@@ -181,16 +181,16 @@ class Transform extends GitDown {
                 v -= 10;
                 if ( v < -500 ) v = -500;
             }
-            this.settings.set_value('translatez', v);
-            this.update_slider_value( 'translatez', v );
+            this.settings.setValue('translatez', v);
+            this.updateSliderValue( 'translatez', v );
         }, this );
     
-        interact(this.eid_inner)
+        interact(this.eidInner)
         .gesturable({
             onmove: function (event) {
-                var scale = this.settings.get_value('translatez');
+                var scale = this.settings.getValue('translatez');
                 scale = scale * (5 + event.ds);
-                this.update_slider_value( 'translatez', scale );
+                this.updateSliderValue( 'translatez', scale );
                 this.dragMoveListener(event);
             }
         })
@@ -203,26 +203,26 @@ class Transform extends GitDown {
         if ( !target.classList.contains('inner') ) return;
         if ( event.buttons > 1 && event.buttons < 4 ) return;
         let x = (parseFloat(target.getAttribute('data-x')) || 0);
-        let old_x = x;
+        let oldX = x;
         x += event.dx;
         let y = (parseFloat(target.getAttribute('data-y')) || 0);
-        let old_y = y;
+        let oldY = y;
         y += event.dy;
     
         // when middle mouse clicked and no movement, reset offset positions
         if ( event.buttons === 4 ) {
-            x = this.settings.get_default('offsetx');
-            y = this.settings.get_default('offsety');
+            x = this.settings.getDefault('offsetx');
+            y = this.settings.getDefault('offsety');
         }
         
-        this.update_slider_value( 'offsetx', x );
-        this.update_slider_value( 'offsety', y );
+        this.updateSliderValue( 'offsetx', x );
+        this.updateSliderValue( 'offsety', y );
         
         // update the position attributes
         target.setAttribute('data-x', x);
         target.setAttribute('data-y', y);
     
-        this.center_view();
+        this.centerView();
     }
 
 }

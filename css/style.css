@@ -63,8 +63,6 @@
 }
 
 .gd-default .inner {
-  height: 2160px;
-  width: 3840px;
   background: cornflowerblue;
   overflow: hidden;
 }
